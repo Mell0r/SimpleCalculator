@@ -1,9 +1,5 @@
 grammar SimpleCalculator;
 
-@header {
-package antlrGeneratedSource;
-}
-
 calculation : (assign ';') | (statement ';');
 assign      : ID '=' statement;
 statement   : statement '+' statement | statement '*' statement | '(' statement ')' | ID | INT;
