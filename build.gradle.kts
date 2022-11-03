@@ -19,6 +19,14 @@ dependencies {
     implementation("com.michael-bull.kotlin-result:kotlin-result:1.1.16")
 }
 
+tasks.named<AntlrTask>("generateGrammarSource").configure {
+    arguments.addAll(listOf("-package", "antlrGeneratedSource", "-visitor", "-no-listener"))
+    outputDirectory = File("src/main/java/antlrGeneratedSource")
+}
+
+tasks.named("compileKotlin").configure {
+    dependsOn("generateGrammarSource")
+}
 
 tasks.test {
     useJUnitPlatform()

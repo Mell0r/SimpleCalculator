@@ -7,17 +7,16 @@ class CalculationVisitor : SimpleCalculatorBaseVisitor<Result<Int, String>>() {
     private val variables = mutableMapOf<String, Int>()
 
     override fun visitErrorNode(node: ErrorNode?): Result<Int, String> {
-        return Err("Incorrect calculation")
+        return Err("Incorrect calculation!")
     }
 
     override fun visitCalculation(ctx: SimpleCalculatorParser.CalculationContext): Result<Int, String> {
-        if (ctx.assign() != null)
-            return visitAssign(ctx.assign())
-
-        if (ctx.statement() != null)
-            return visitStatement(ctx.statement())
-
-        return Err("Wrong grammar rule for 'calculation'!")
+        return if (ctx.assign() != null)
+                visitAssign(ctx.assign())
+            else if (ctx.statement() != null)
+                visitStatement(ctx.statement())
+            else
+                Err("Wrong grammar rule for 'calculation'!")
     }
 
     override fun visitAssign(ctx: SimpleCalculatorParser.AssignContext): Result<Int, String> {

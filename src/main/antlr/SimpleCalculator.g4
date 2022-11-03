@@ -1,12 +1,8 @@
 grammar SimpleCalculator;
 
-@header {
-package antlrGeneratedSource;
-}
-
 calculation : (assign ';') | (statement ';');
 assign      : ID '=' statement;
-statement   : statement '+' statement | statement '*' statement | '(' statement ')' | ID | INT;
+statement   : statement '*' statement | statement '+' statement | '(' statement ')' | ID | INT;
 
 fragment DIGIT  : [0-9];
 fragment LETTER : [a-z] | [A-Z];
