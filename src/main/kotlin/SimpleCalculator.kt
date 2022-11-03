@@ -8,12 +8,23 @@ import com.github.michaelbull.result.*
 class SimpleCalculator {
     private val visitor = CalculationVisitor()
 
-    fun calculate(line: String) : Result<Int, String> {
-        val inputStream: CharStream = CharStreams.fromString(line)
+    fun calculate(statement: String) : Result<Int, String> {
+        val inputStream: CharStream = CharStreams.fromString(statement)
 
         val lexer = SimpleCalculatorLexer(inputStream)
         val commonTokenStream = CommonTokenStream(lexer)
         val parser = SimpleCalculatorParser(commonTokenStream)
+
+        val listener = SavingErrorListener()
+        parser.removeErrorListeners()
+        parser.addErrorListener(listener)
+        parser.calculation()
+        val savedError = listener.savedError
+        if (savedError != null)
+            return Err(savedError)
+
+        parser.reset()
+
         return visitor.visitCalculation(parser.calculation())
     }
 }

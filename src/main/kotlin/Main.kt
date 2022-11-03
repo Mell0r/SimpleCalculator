@@ -3,7 +3,9 @@ import java.io.File
 
 fun main(args: Array<String>) {
     val calculator = SimpleCalculator()
+    var lineNum = 0
     File(args[0]).forEachLine { line ->
+        lineNum++
         calculator.calculate(line).mapBoth(
             { res ->
                 if (line.contains('='))
